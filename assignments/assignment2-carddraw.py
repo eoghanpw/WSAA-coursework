@@ -6,6 +6,7 @@
 # [2] https://realpython.com/python-requests/#query-string-parameters
 # [3] https://www.geeksforgeeks.org/counting-number-of-unique-values-in-a-python-list/
 # [4] https://stackoverflow.com/a/51228746
+# [5] https://www.geeksforgeeks.org/python-calculate-difference-between-adjacent-elements-in-given-list/
 
 import requests
 import numpy as np
@@ -30,9 +31,29 @@ flush = len(set(suits))  # Ref [3]
 if flush == 1:
     print("OMG! You have drawn a flush!")
 
+# Congratulate user on a straight.
+straight = []
+for value in values:
+    if value == "JACK":
+        straight.append(11)
+    elif value == "QUEEN":
+        straight.append(12)
+    elif value == "KING":
+        straight.append(13)
+    elif value == "ACE":
+        straight.append(1)
+    else:
+        straight.append(int(value))
+
+straight.sort()
+
+straight = np.diff(np.array(straight)).tolist()  # Ref [5]
+
+if straight == [1, 1, 1, 1]:
+    print("Would you look at that! A straight!!")
+
 # Congratulate user on a pair, 3/4 of kind & full house.
 unique, counts = np.unique(values, return_counts=True)  # Ref [4]
-print(unique, counts)
 
 pair_count = 0
 three_count = 0
@@ -55,5 +76,3 @@ elif pair_count == 2:
     print("Your luck is in, two pairs!")
 elif pair_count == 1:
     print("Congrats, a lovely pair!")
-else:
-    print("Better luck next time!")
