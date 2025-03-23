@@ -1,5 +1,5 @@
 # assignment04-github.py
-# Program that commits & pushes changes to file to github repo.
+# Program that updates file and commits & pushes changes to github repo.
 # Author: Eoghan Walsh
 # References:
 # [1] https://pygithub.readthedocs.io/en/stable/introduction.html
@@ -18,7 +18,7 @@ auth = Auth.Token(cfg["githubkey"])  # Ref[1]
 g = Github(auth=auth)
 
 # get content file
-filename = "andrew.txt"
+filename = "assignment04.txt"
 repo = g.get_repo("eoghanpw/WSAA-coursework")  # Ref[2]
 contents = repo.get_contents("assignments/" + filename)
 
@@ -29,13 +29,19 @@ file_contents = response.text
 print(f"Existing content: {file_contents}")
 
 # update file contents
-target = "Eoghan"
-replacement = "Andrew"
-updated_contents = file_contents.replace(target, replacement)
+name1 = "Andrew"
+name2 = "Eoghan"
+
+if file_contents.find(name1) == -1:
+    updated_contents = file_contents.replace(name2, name1)
+else:
+    updated_contents = file_contents.replace(name1, name2)
+
 print(f"Updated content: {updated_contents}")
 
 # update file and commit to github  Ref[3]
-github_response = repo.update_file(contents.path, f"update name in {filename} with prog",
+github_response = repo.update_file(contents.path,
+                                   f"update name in {filename} with prog",
                                    updated_contents, contents.sha)
 
 print(github_response)
