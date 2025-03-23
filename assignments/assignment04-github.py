@@ -1,9 +1,10 @@
 # assignment04-github.py
-# Program that commits & pushes changes on file to github repo.
+# Program that commits & pushes changes to file to github repo.
 # Author: Eoghan Walsh
 # References:
 # [1] https://pygithub.readthedocs.io/en/stable/introduction.html
-# [2]
+# [2] https://pygithub.readthedocs.io/en/stable/examples/Repository.html#get-a-specific-content-file
+# [3] https://pygithub.readthedocs.io/en/stable/examples/Repository.html#update-a-file-in-the-repository
 
 from github import Github
 from github import Auth
@@ -11,12 +12,30 @@ from config import config as cfg
 import requests
 
 # api key
-auth = Auth.Token(cfg["githubkey"])
+auth = Auth.Token(cfg["githubkey"])  # Ref[1]
 
-# github instance
+# create github instance
 g = Github(auth=auth)
 
-for repo in g.get_user().get_repos():
-    print(repo.name)
+# get content file
+filename = "andrew.txt"
+repo = g.get_repo("eoghanpw/WSAA-coursework")  # Ref[2]
+contents = repo.get_contents("assignments/" + filename)
 
-repo = g.get_repo("eoghanpw/")
+# get the file contents
+url = contents.download_url
+response = requests.get(url)
+file_contents = response.text
+print(f"Existing content: {file_contents}")
+
+# update file contents
+target = "Eoghan"
+replacement = "Andrew"
+updated_contents = file_contents.replace(target, replacement)
+print(f"Updated content: {updated_contents}")
+
+# update file and commit to github  Ref[3]
+github_response = repo.update_file(contents.path, f"update name in {filename} with prog",
+                                   updated_contents, contents.sha)
+
+print(github_response)
