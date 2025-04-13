@@ -14,15 +14,16 @@ url = "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/FIQ
 
 # Function to get json from cso api.
 def get_cso_data(url):
-    response = requests.get(url)
+    response = requests.get(url)  # Ref[2]
     return response.json()
 
 
 # Function to write data to json file.
 def write_cso_data(url):
-    with open("cso.json", "wt") as write_file:
-        json.dump(get_cso_data(url), write_file)
+    with open("cso.json", "wt") as write_file:  # Ref[3]
+        json.dump(get_cso_data(url), write_file, indent="\t")
 
 
+# Run the program.
 if __name__ == "__main__":
     write_cso_data(url)

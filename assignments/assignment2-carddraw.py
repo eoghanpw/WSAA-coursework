@@ -1,5 +1,5 @@
 # assignment2-carddraw.py
-# Program that uses an API to deal 5 cards.
+# Program that uses an API to deal 5 cards and checks what hand has been drawn.
 # Author: Eoghan Walsh
 # References:
 # [1] https://deckofcardsapi.com/

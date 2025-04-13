@@ -1,5 +1,5 @@
 # assignment04-github.py
-# Program that updates file and commits & pushes changes to github repo.
+# Program that updates file from github repo, then commits & pushes changes back to repo.
 # Author: Eoghan Walsh
 # References:
 # [1] https://pygithub.readthedocs.io/en/stable/introduction.html
